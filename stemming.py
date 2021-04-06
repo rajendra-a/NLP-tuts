@@ -1,5 +1,5 @@
 import nltk
-from nltk.stem import PorterStemmer
+from nltk import PorterStemmer
 from nltk.corpus import stopwords
 
 paragraph = """I have three visions for India. In 3000 years of our history, people from all over 
@@ -26,17 +26,18 @@ paragraph = """I have three visions for India. In 3000 years of our history, peo
                I was lucky to have worked with all three of them closely and consider this the great opportunity of my life. 
                I see four milestones in my career"""
 
+# splitting the paragraph into list of sentences 
 sentences = nltk.sent_tokenize(paragraph)
+# creating the instance of the classs PorterStemmer
 stemmer = PorterStemmer()
 
 #stemming
 for i in range(len(sentences)):
-    # split the sentnce into list of words
+    # split the sentnce into list of words of every sentence
     words = nltk.word_tokenize(sentences[i])
-
     # if the words of sentence not in stopwords then stem the word and return the list of the words
     words = [stemmer.stem(word) for word in words if word not in set(stopwords.words('english'))]
     print(stopwords.words('english'))
-    
-    # formatting the sentence by joining the stemmed words
+    # format the the stemmed words into sentence
     sentences[i] = ' '.join(words)
+    print(sentences)

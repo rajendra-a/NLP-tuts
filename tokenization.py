@@ -24,10 +24,10 @@ paragraph = """I have three visions for India. In 3000 years of our history, peo
                I was lucky to have worked with all three of them closely and consider this the great opportunity of my life. 
                I see four milestones in my career"""
                
-# Tokenizing sentences
+# split the paragraph into list of sentences
 sentences = nltk.sent_tokenize(paragraph)
 print(sentences)
-# Tokenizing words
+# split the paragraph into list of words
 words = nltk.word_tokenize(paragraph)
 print(words)
 
