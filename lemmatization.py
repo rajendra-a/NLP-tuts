@@ -40,3 +40,4 @@ for i in range(len(sentences)):
     words = [lemmatizer.lemmatize(word) for word in words if not set(stopwords.words('english'))]
     # format the lemmatized words into sentences
     sentences[i] = " ".join(words)
+print(sentences)

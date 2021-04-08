@@ -33,13 +33,14 @@ from nltk.stem import WordNetLemmatizer
 ps = PorterStemmer()
 wordnet = WordNetLemmatizer()
 # splitting paragraph into sentences 
-sentenes = nltk.sent_tokenize(paragraph)
+sentences = nltk.sent_tokenize(paragraph)
 corpus = []
 
+
 # Iterating over sentences of paragraph
-for i in range(len(sentenes)):
+for i in range(len(sentences)):
     # replacing all the characters except from alphabet with space in sentence
-    review = re.sub('[^a-zA-Z]', ' ', sentenes[i])
+    review = re.sub('[^a-zA-Z]', ' ', sentences[i])
     # converting the all characters in a sentence
     review = review.lower()
     # splitting the sentence into list of words 
@@ -56,6 +57,6 @@ print(corpus)
 # Creating the bag of words
 from sklearn.feature_extraction.text import CountVectorizer
 cv = CountVectorizer()
-# converting the lemmatized corpus into matrix
+# converting the lemmatized corpus into matrix 
 x = cv.fit_transform(corpus).toarray()
 print(x)

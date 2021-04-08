@@ -1,8 +1,5 @@
 import nltk
-from nltk import PorterStemmer
-from nltk.corpus import stopwords
 
-#corpora
 paragraph = """I have three visions for India. In 3000 years of our history, people from all over 
                the world have come and invaded us, captured our lands, conquered our minds. 
                From Alexander onwards, the Greeks, the Turks, the Moguls, the Portuguese, the British,
@@ -27,20 +24,39 @@ paragraph = """I have three visions for India. In 3000 years of our history, peo
                I was lucky to have worked with all three of them closely and consider this the great opportunity of my life. 
                I see four milestones in my career"""
 
-# splitting the paragraph into list of sentences 
+
+# cleaning the text
+import re
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.stem import WordNetLemmatizer
+
+
+ps = PorterStemmer()
+wordnet = WordNetLemmatizer()
 sentences = nltk.sent_tokenize(paragraph)
-# creating the instance of the classs PorterStemmer
-stemmer = PorterStemmer()
+corpus = []
 
-#stemming
+# iterating over sentences of paragraph 
 for i in range(len(sentences)):
-    # split the sentnce into list of words of every sentence
-    words = nltk.word_tokenize(sentences[i])
-    # if the words of sentence not in stopwords then stem the word and return the list of the words
-    words = [stemmer.stem(word) for word in words if word not in set(stopwords.words('english'))]
-    # format the the stemmed words into sentence of string
-    sentences[i] = ' '.join(words)
-print(sentences)
+    # removing the all characters except alphabets with space
+    review = re.sub('[^a-zA-Z]', ' ', sentences[i])
+    # converting the all characters in a sentece into lowercase
+    review = review.lower()
+    # splitting the sentence into words 
+    review = review.split()
+    # if words not in stop words in english then lemmatize the words of sentece
+    review = [wordnet.lemmatize(word) for word in review if word not in set(stopwords.words('english'))]
+    # format the sentence by joining the all words together
+    review = " ".join(review)
+    # add the all sentences to list of corpus
+    corpus.append(review)
+print(corpus)
 
-# disavantage of stemming is produce intermediate representation of the word may not have any meaning
-# eg: intelligen, fina etc 
+# Creating TFIDF
+from sklearn.feature_extraction.text import TfidfVectorizer
+cv = TfidfVectorizer()
+# Converting lemmatized corpus into matrix 
+x = cv.fit_transform(corpus).toarray()
+print(x)
+
