@@ -1,8 +1,5 @@
 import nltk
-from nltk import WordNetLemmatizer
-from nltk.corpus import stopwords
 
-# corpora
 paragraph = """I have three visions for India. In 3000 years of our history, people from all over 
                the world have come and invaded us, captured our lands, conquered our minds. 
                From Alexander onwards, the Greeks, the Turks, the Moguls, the Portuguese, the British,
@@ -27,16 +24,38 @@ paragraph = """I have three visions for India. In 3000 years of our history, peo
                I was lucky to have worked with all three of them closely and consider this the great opportunity of my life. 
                I see four milestones in my career"""
 
-# split the paragraph into list of sentences            
-sentences = nltk.sent_tokenize(paragraph)
-# creating the instance of the WordNerLemmatizer
-lemmatizer = nltk.WordNetLemmatizer()
+# cleaning the texts
+import re
+from nltk.corpus import stopwords
+from nltk.stem.porter import PorterStemmer
+from nltk.stem import WordNetLemmatizer
 
-# Lemmatization
-for i in range(len(sentences)):
-    # split the sentence into words of every sentence
-    words = nltk.word_tokenize(sentences[i])
-    # if the words of sentence not in stop words then lemmatize the word and return the list of lemmatized words
-    words = [lemmatizer.lemmatize(word) for word in words if not set(stopwords.words('english'))]
-    # format the lemmatized words into sentences
-    sentences[i] = " ".join(words)
+ps = PorterStemmer()
+wordnet = WordNetLemmatizer()
+# splitting paragraph into sentences 
+sentenes = nltk.sent_tokenize(paragraph)
+corpus = []
+
+# Iterating over sentences of paragraph
+for i in range(len(sentenes)):
+    # replacing all the characters except from alphabet with space in sentence
+    review = re.sub('[^a-zA-Z]', ' ', sentenes[i])
+    # converting the all characters in a sentence
+    review = review.lower()
+    # splitting the sentence into list of words 
+    review = review.split()
+    # if words of sentence not in set of stop words then lemmatize the word and return the list of words
+    review = [wordnet.lemmatize(word) for word in review if not word in set(stopwords.words('english'))]
+    # format the sentence by joining lemmatized words 
+    review = " ".join(review)
+    # append the sentence to corpus list
+    corpus.append(review)
+
+print(corpus)
+
+# Creating the bag of words
+from sklearn.feature_extraction.text import CountVectorizer
+cv = CountVectorizer()
+# converting the lemmatized corpus into matrix
+x = cv.fit_transform(corpus).toarray()
+print(x)

@@ -2,6 +2,7 @@ import nltk
 from nltk import PorterStemmer
 from nltk.corpus import stopwords
 
+#corpora
 paragraph = """I have three visions for India. In 3000 years of our history, people from all over 
                the world have come and invaded us, captured our lands, conquered our minds. 
                From Alexander onwards, the Greeks, the Turks, the Moguls, the Portuguese, the British,
